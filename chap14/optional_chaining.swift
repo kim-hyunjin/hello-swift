@@ -184,3 +184,5 @@ func enterClub(name: String?, age: Int?) {
 
     print("Welcome \(name)")
 }
+
+// guard 구문의 한계는 자신을 감싸는 블록이 없어 제어문 전환 명령어를 쓸 수 없는 상황이라면 사용이 불가하다는 점이다.

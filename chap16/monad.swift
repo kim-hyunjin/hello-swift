@@ -130,5 +130,7 @@ func integerToNil(param: Int) -> String? {
 }
 
 optionalString = "2"
-result = optionalString.flatMap(stringToInteger).flatMap(integerToNil).flatMap(stringToInteger)
+result = optionalString.flatMap(stringToInteger)
+    .flatMap(integerToNil) //  이 부분에서 nil(Optional.none)을 반환받기 때문에 이후에 호출되는 메서드는 무시한다. 바로, 옵셔널이 모나드이기때문에 가능한 것.
+    .flatMap(stringToInteger)
 print(result as Any)

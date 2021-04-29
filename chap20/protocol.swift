@@ -233,7 +233,7 @@ struct Pet2: Named2 {
     }
 }
 
-struct Pet3: Named2 {
+class Pet3: Named2 {
     var name: String
 
     required init?(name: String) {

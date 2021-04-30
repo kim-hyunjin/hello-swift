@@ -136,9 +136,62 @@ extension Insertable {
 
 struct Stack<Element>: Popable {
     var items: [Element] = [Element]()
+
+    func map<T>(transform: (Element) -> T) -> Stack<T> {
+        var transformedStack: Stack<T> = Stack<T>()
+        for item in items {
+            transformedStack.items.append(transform(item))
+        }
+        return transformedStack
+    }
+
+    func filter(includeElement: (Element) -> Bool) -> Stack<Element> {
+        var filteredStack: Stack<ItemType> = Stack<ItemType>()
+        for item in items {
+            if includeElement(item) {
+                filteredStack.items.append(item)
+            }
+        }
+        return filteredStack
+    }
+
+    func reduce<T>(_ initialResult: T, nextPartialResult: (T, Element) -> T) -> T {
+        var result: T = initialResult
+        for item in items {
+            result = nextPartialResult(result, item)
+        }
+        return result
+    }
 }
 
 struct Queue<Element>: Insertable {
     var items: [Element] = [Element]()
 }
 // 프로토콜 초기구현을 통해 기능을 구현한다면 프로토콜 채택만으로 타입에 기능을 추가해 사용할 수 있다.
+
+var myIntStack: Stack<Int> = Stack<Int>()
+myIntStack.push(1)
+myIntStack.push(2)
+myIntStack.push(3)
+myIntStack.printSelf()
+
+var myStrStack: Stack<String> = myIntStack.map{"\($0)"}
+myStrStack.printSelf()
+
+let filteredStack: Stack<Int> = myIntStack.filter{(item: Int) -> Bool in
+    return item < 3
+}
+
+filteredStack.printSelf()
+
+let combinedInt: Int = myIntStack.reduce(0) {(result: Int, next: Int) -> Int in
+    return result + next
+}
+
+print(combinedInt)
+
+let combinedDouble: Double = myIntStack.reduce(0.0) {(result: Double, next: Int) -> Double in
+    return result + Double(next)
+}
+
+print(combinedDouble)

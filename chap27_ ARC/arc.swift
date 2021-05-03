@@ -190,4 +190,39 @@ if let owner: CardOwner = jisoo {
 jisoo = nil // 카드와 주인 모두 참조 0
 
 // 미소유참조와 암시적 추출 옵셔널 프로퍼티
-// 한번 초기화된 후 nil을 할당할 수 없는 조건을 갖추어야 한다면?
+// 서로 참조해야 하는 프로퍼티에 값이 꼭 있어야 하면서도 한번 초기화된 후 nil을 할당할 수 없는 조건을 갖추어야 한다면?
+class Company {
+    let name: String
+    // 암시적 추출 옵셔널 프로퍼티(강한참조)
+    var ceo: CEO!
+
+    init(name: String, ceoName: String) {
+        self.name = name
+        self.ceo = CEO(name: ceoName, company: self)
+    }
+
+    func introduce() {
+        print("\(name)의 CEO는 \(ceo.name)입니다.")
+    }
+}
+
+class CEO {
+    let name: String
+    // 미소유참조 상수 프로퍼티 (미소유참조)
+    unowned let company: Company
+
+    init(name: String, company: Company) {
+        self.name = name
+        self.company = company
+    }
+
+    func introduce() {
+        print("\(name)는 \(company.name)의 CEO입니다.")
+    }
+}
+
+let company: Company = Company(name: "무한상사", ceoName: "김태호")
+company.introduce()
+company.ceo.introduce()
+// print(company.ceo.company.ceo as Any)
+// print(company.ceo.company.ceo.company.ceo.company.ceo as Any)

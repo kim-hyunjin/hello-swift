@@ -87,5 +87,8 @@ func deferExamFunction(shouldThrowError: Bool) throws -> Int {
     }
     return 100
 }
-try? deferExamFunction(shouldThrowError: true)
+try? deferExamFunction(shouldThrowError: true) // 오류를 던지기 이전까지 작성된 defer까지만 실행
 try? deferExamFunction(shouldThrowError: false)
+
+// do 구문을 catch를 제외하고 단독으로 사용할 수 있다.
+// 하위 블록을 만들고자 할때인데, 하위 블록이 종료될 때 그 내부의 defer구문이 실행된다.
